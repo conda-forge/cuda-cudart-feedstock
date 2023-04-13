@@ -25,7 +25,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [osx or win]
+  skip: true  # [osx]
 
 test:
   commands:
@@ -37,6 +37,10 @@ test:
 
 outputs:
   - name: cuda-cudart
+    build:                                               # [win]
+      missing_dso_whitelist:                             # [win]
+        - "*/api-ms-win-core-libraryloader-*.dll"        # [win]
+        - "*/api-ms-win-security-systemfunctions-*.dll"  # [win]
     files:
       - lib/libcu*.so.*                            # [linux]
       - targets/{{ target_name }}/lib/libcu*.so.*  # [linux]
