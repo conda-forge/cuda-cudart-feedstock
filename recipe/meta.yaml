@@ -24,23 +24,22 @@ source:
   sha256: 1cd8516feee068c6d718453e76b0dfcbee27844a35d4f3aa608a3d316190309c  # [win]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [osx or win]
 
 test:
   commands:
-    - test -L $PREFIX/lib/libcudart.so.{{ version.split(".")[0] }}                            # [linux]
-    - test -L $PREFIX/lib/libcudart.so.{{ version }}                                          # [linux]
-    - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
-    - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
-    - if not exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1              # [win]
+    - test -L $PREFIX/cuda/lib64                                                                   # [linux]
+    - test -L $PREFIX/cuda/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
+    - test -f $PREFIX/cuda/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
+    - if not exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1                   # [win]
 
 outputs:
   - name: cuda-cudart
     files:
-      - lib/libcu*.so.*                            # [linux]
-      - targets/{{ target_name }}/lib/libcu*.so.*  # [linux]
-      - Library\bin\cudart*.dll                    # [win]
+      - cuda/lib64                                      # [linux]
+      - cuda/targets/{{ target_name }}/lib/libcu*.so.*  # [linux]
+      - Library\bin\cudart*.dll                         # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -69,7 +68,7 @@ outputs:
       run_exports:
         - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
     files:             # [linux]
-      - lib/libcu*.so  # [linux]
+      - cuda/lib64     # [linux]
       - lib/pkgconfig  # [linux]
     requirements:
       build:
@@ -88,7 +87,7 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -L $PREFIX/lib/libcudart.so           # [linux]
+        - test -L $PREFIX/cuda/lib64                 # [linux]
         - test -f $PREFIX/lib/pkgconfig/cuda-*.pc    # [linux]
         - test -f $PREFIX/lib/pkgconfig/cudart-*.pc  # [linux]
     about:
@@ -107,8 +106,8 @@ outputs:
       run_exports:
         - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
     files:
-      - targets/{{ target_name }}/include                               # [linux]
-      - targets/{{ target_name }}/lib/*.so                              # [linux]
+      - cuda/targets/{{ target_name }}/include                          # [linux]
+      - cuda/targets/{{ target_name }}/lib/*.so                         # [linux]
       - Library\include                                                 # [win]
       - Library\lib\cuda.lib                                            # [win]
       - Library\lib\cudadevrt.lib                                       # [win]
@@ -129,12 +128,12 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -f $PREFIX/targets/{{ target_name }}/include/cuda.h                              # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/include/cuda_runtime.h                      # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/include/cuda_runtime_api.h                  # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/include/cooperative_groups/memcpy_async.h   # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/include/cooperative_groups/details/async.h  # [linux]
-        - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so                            # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/include/cuda.h                              # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/include/cuda_runtime.h                      # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/include/cuda_runtime_api.h                  # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/include/cooperative_groups/memcpy_async.h   # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/include/cooperative_groups/details/async.h  # [linux]
+        - test -L $PREFIX/cuda/targets/{{ target_name }}/lib/libcudart.so                            # [linux]
         - if not exist %LIBRARY_INC%\cuda.h exit 1                                              # [win]
         - if not exist %LIBRARY_INC%\cuda_runtime.h exit 1                                      # [win]
         - if not exist %LIBRARY_INC%\cuda_runtime_api.h exit 1                                  # [win]
@@ -152,8 +151,8 @@ outputs:
       doc_url: https://docs.nvidia.com/cuda/index.html
 
   - name: cuda-cudart-static
-    files:       # [linux]
-      - lib/*.a  # [linux]
+    files:          # [linux]
+      - cuda/lib64  # [linux]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -169,9 +168,7 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -L $PREFIX/lib/libcudart_static.a  # [linux]
-        - test -L $PREFIX/lib/libcudadevrt.a      # [linux]
-        - test -L $PREFIX/lib/libculibos.a        # [linux]
+        - test -L $PREFIX/cuda/lib64  # [linux]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -186,8 +183,8 @@ outputs:
     build:
       noarch: generic
     files:
-      - targets/{{ target_name }}/lib/*.a  # [linux]
-      - Library\lib\cudart_static.lib      # [win]
+      - cuda/targets/{{ target_name }}/lib/*.a  # [linux]
+      - Library\lib\cudart_static.lib           # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -202,10 +199,10 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart_static.a  # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/lib/libcudadevrt.a      # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/lib/libculibos.a        # [linux]
-        - if not exist %LIBRARY_LIB%\cudart_static.lib exit 1               # [win]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/lib/libcudart_static.a  # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/lib/libcudadevrt.a      # [linux]
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/lib/libculibos.a        # [linux]
+        - if not exist %LIBRARY_LIB%\cudart_static.lib exit 1                    # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -220,7 +217,7 @@ outputs:
     build:
       skip: True  # [not linux]
     files:
-      - lib/stubs/libcuda.so
+      - cuda/lib64
     requirements:
       build:
         - {{ compiler("c") }}
@@ -236,7 +233,7 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -L $PREFIX/lib/stubs/libcuda.so
+        - test -L $PREFIX/cuda/lib64
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -252,7 +249,7 @@ outputs:
       skip: True  # [not linux]
       noarch: generic
     files:
-      - targets/{{ target_name }}/lib/stubs/libcuda.so
+      - cuda/targets/{{ target_name }}/lib/stubs/libcuda.so
     requirements:
       build:
         - {{ compiler("c") }}
@@ -267,7 +264,7 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
-        - test -f $PREFIX/targets/{{ target_name }}/lib/stubs/libcuda.so
+        - test -f $PREFIX/cuda/targets/{{ target_name }}/lib/stubs/libcuda.so
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
