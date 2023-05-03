@@ -69,6 +69,7 @@ outputs:
         - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
     files:             # [linux]
       - cuda/lib64     # [linux]
+      - cuda/include   # [linux]
       - lib/pkgconfig  # [linux]
     requirements:
       build:
@@ -88,6 +89,7 @@ outputs:
     test:
       commands:
         - test -L $PREFIX/cuda/lib64                 # [linux]
+        - test -L $PREFIX/cuda/include               # [linux]
         - test -f $PREFIX/lib/pkgconfig/cuda-*.pc    # [linux]
         - test -f $PREFIX/lib/pkgconfig/cudart-*.pc  # [linux]
     about:
