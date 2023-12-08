@@ -110,7 +110,7 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
-        - {{ pin_subpackage("cuda-cudart_" + target_platform, max_pin="x") }}
+        - {{ pin_subpackage("cuda-cudart_" + target_platform, max_pin="x") }}  # [win]
     files:             # [linux]
       - lib/libcu*.so  # [linux]
       - lib/pkgconfig  # [linux]
