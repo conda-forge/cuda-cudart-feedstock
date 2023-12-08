@@ -24,7 +24,7 @@ source:
   sha256: 1cd8516feee068c6d718453e76b0dfcbee27844a35d4f3aa608a3d316190309c  # [win]
 
 build:
-  number: 7
+  number: 8
   skip: true  # [osx]
 
 outputs:
@@ -110,6 +110,7 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
+        - {{ pin_subpackage("cuda-cudart_" + target_platform, max_pin="x") }}
     files:             # [linux]
       - lib/libcu*.so  # [linux]
       - lib/pkgconfig  # [linux]
