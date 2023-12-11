@@ -67,6 +67,8 @@ outputs:
       doc_url: https://docs.nvidia.com/cuda/index.html
 
   - name: cuda-cudart
+    build:
+      binary_relocation: false
     files:                                         # [linux]
       - lib/libcu*.so.*                            # [linux]
     requirements:
