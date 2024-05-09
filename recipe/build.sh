@@ -23,7 +23,10 @@ for i in `ls`; do
             for j in "$i"/{*.a,*.so,stubs/*.so}*; do
                 # Shared and static libraries are symlinked in $PREFIX/lib
                 ln -sv ${PREFIX}/${targetsDir}/$j ${PREFIX}/$j
-
+                # Provide libcuda.so.1 for applications that need it
+                if [[ $j == "lib/stubs/libcuda.so" ]]; then
+                    ln -sv ${PREFIX}/${targetsDir}/$j ${PREFIX}/$j.1
+                fi
                 if [[ $j =~ \.so\. ]]; then
                     patchelf --set-rpath '$ORIGIN' --force-rpath ${PREFIX}/${targetsDir}/$j
                 fi

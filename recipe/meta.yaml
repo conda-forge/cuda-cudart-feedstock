@@ -266,7 +266,7 @@ outputs:
     build:
       skip: True  # [not linux]
     files:
-      - lib/stubs/libcuda.so
+      - lib/stubs/libcuda.so*
     requirements:
       build:
         - {{ compiler("c") }}
@@ -283,6 +283,7 @@ outputs:
     test:
       commands:
         - test -L $PREFIX/lib/stubs/libcuda.so
+        - test -L $PREFIX/lib/stubs/libcuda.so.1
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
