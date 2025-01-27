@@ -29,6 +29,12 @@ build:
   number: 1
   skip: true  # [osx or ppc64le]
 
+requirements:
+  build:
+    - {{ stdlib("c") }}
+    - patchelf <0.18.0  # [linux]
+    - cf-nvidia-tools   # [linux]
+
 outputs:
   - name: cuda-cudart_{{ target_platform }}
     build:
@@ -43,7 +49,6 @@ outputs:
         - {{ compiler("cxx") }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - {{ stdlib("c") }}
-        - patchelf <0.18.0                      # [linux]
       host:
         - cuda-version {{ cuda_version }}
       run:

@@ -42,3 +42,5 @@ for i in `ls`; do
         cp -rv $i ${PREFIX}/${targetsDir}/${PKG_NAME}/$i
     fi
 done
+
+check-glibc ${PREFIX}/${targetsDir}/lib/*.so.*
