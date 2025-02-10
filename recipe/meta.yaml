@@ -3,11 +3,13 @@
 {% set cuda_version = "12.8" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
-{% set platform = "linux-sbsa" %}  # [aarch64]
+{% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set platform = "linux-aarch64" %}  # [aarch64 and arm_variant_type=="tegra"]
 {% set platform = "windows-x86_64" %}  # [win]
 {% set target_name = "x86_64-linux" %}  # [linux64]
 {% set target_name = "ppc64le-linux" %}  # [ppc64le]
-{% set target_name = "sbsa-linux" %}  # [aarch64]
+{% set target_name = "sbsa-linux" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set target_name = "aarch64-linux" %}  # [aarch64 and arm_variant_type=="tegra"]
 {% set target_name = "x64" %}  # [win]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
@@ -19,12 +21,19 @@ package:
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/{{ platform }}/cuda_cudart-{{ platform }}-{{ version }}-archive.{{ extension }}
   sha256: 5bd3ac35ea8e8ab880e595d5054ee373abf6d9e53dcb8cef0a5c75358dbc0ae2  # [linux64]
-  sha256: b94814dacc8e4e69c8909ac08ae9f8d6831c1a141358a6e9f60583481a49ae2b  # [aarch64]
+  sha256: b94814dacc8e4e69c8909ac08ae9f8d6831c1a141358a6e9f60583481a49ae2b  # [aarch64 and arm_variant_type=="sbsa"]
+  sha256: 45a6f64522329448d75e9c6adcd625994fe85f6aff9befe0dd43468aa65cb00a  # [aarch64 and arm_variant_type=="tegra"]
   sha256: 2c7aa62a195d79229d4381c8bd0174a30502cf3d8124c6e94ee50a7fc8a1e9f4  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx or ppc64le]
+
+requirements:
+  build:
+    - {{ stdlib("c") }}
+    - patchelf <0.18.0  # [linux]
+    - cf-nvidia-tools   # [linux]
 
 outputs:
   - name: cuda-cudart_{{ target_platform }}
@@ -40,7 +49,6 @@ outputs:
         - {{ compiler("cxx") }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - {{ stdlib("c") }}
-        - patchelf <0.18.0                      # [linux]
       host:
         - cuda-version {{ cuda_version }}
       run:
