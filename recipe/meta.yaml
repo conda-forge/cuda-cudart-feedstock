@@ -26,7 +26,7 @@ source:
   sha256: 4a39058fd8519444a81cfc7ae055d136f48d1a31ffa41ae255b35b2edd61e13b  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx or ppc64le]
 
 requirements:
@@ -53,7 +53,6 @@ outputs:
         - cuda-version {{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -91,7 +90,6 @@ outputs:
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_subpackage("cuda-cudart_" + target_platform, exact=True) }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       requires:
@@ -136,7 +134,6 @@ outputs:
         - {{ pin_subpackage("cuda-cudart", exact=True) }}
         - {{ pin_subpackage("cuda-cudart-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-cudart-static", exact=True) }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -178,7 +175,6 @@ outputs:
         - cuda-cudart-static_{{ target_platform }}
         - cuda-cccl_{{ target_platform }}
         - cuda-cudart_{{ target_platform }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -218,7 +214,6 @@ outputs:
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_subpackage("cuda-cudart-static_" + target_platform, exact=True) }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -251,7 +246,6 @@ outputs:
         - cuda-version {{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -285,7 +279,6 @@ outputs:
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - cuda-driver-dev_{{ target_platform }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
@@ -317,7 +310,6 @@ outputs:
         - cuda-version {{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
