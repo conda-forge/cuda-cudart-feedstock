@@ -219,7 +219,6 @@ outputs:
       commands:
         - test -L $PREFIX/lib/libcudart_static.a  # [linux]
         - test -L $PREFIX/lib/libcudadevrt.a      # [linux]
-        - test -L $PREFIX/lib/libculibos.a        # [linux]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -251,7 +250,6 @@ outputs:
       commands:
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart_static.a  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudadevrt.a      # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/lib/libculibos.a        # [linux]
         - if not exist %LIBRARY_LIB%\{{ target_name }}\cudart_static.lib exit 1               # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
