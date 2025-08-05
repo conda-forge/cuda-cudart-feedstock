@@ -1,6 +1,6 @@
 {% set name = "cuda-cudart" %}
-{% set version = "12.9.79" %}
-{% set cuda_version = "12.9" %}
+{% set version = "13.0.48" %}
+{% set cuda_version = "13.0" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
 {% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
@@ -20,10 +20,10 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/{{ platform }}/cuda_cudart-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 1f6ad42d4f530b24bfa35894ccf6b7209d2354f59101fd62ec4a6192a184ce99  # [linux64]
-  sha256: 8b422a3b2cb8452cb678181b0bf9d7aa7342df168b5319c5488ae3b8514101fc  # [aarch64 and arm_variant_type=="sbsa"]
-  sha256: f893e2c72be81b0d0e3bc33827c785a96db15fd5aafdc51cc187f3df6fdbb657  # [aarch64 and arm_variant_type=="tegra"]
-  sha256: 179e9c43b0735ffe67207b3da556eb5a0c50f3047961882b7657d3b822d34ef8  # [win]
+  sha256: 30ffafae23833dafc965cf4e4d034f8553805586959328c64e2c47b3ef3bcd55  # [linux64]
+  sha256: 796da98c6868eb8aa0de5c28f4fb7fb77c2250cd91c9a763a2169faec95fc5dc  # [aarch64 and arm_variant_type=="sbsa"]
+  #sha256: f893e2c72be81b0d0e3bc33827c785a96db15fd5aafdc51cc187f3df6fdbb657  # [aarch64 and arm_variant_type=="tegra"]
+  sha256: 82fb29001895810ce02e88b180cbaa90607b852a7f67a63f18f202079eaa2966  # [win]
 
 build:
   number: 0
@@ -58,7 +58,7 @@ outputs:
       commands:
         - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
-        - if exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1                  # [win]
+        - if exist %LIBRARY_BIN%\{{ target_name }}\cudart64_{{ version.split(".")[0] }}.dll exit 1                  # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -77,7 +77,7 @@ outputs:
         - "*/api-ms-win-security-systemfunctions-*.dll"  # [win]
     files:
       - lib/libcu*.so.*                            # [linux]
-      - Library\bin\cudart*.dll                    # [win]
+      - Library\bin\{{ target_name }}\cudart*.dll                    # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -102,7 +102,7 @@ outputs:
         - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
         - bash test-rpath.sh                                                                      # [linux]
-        - if not exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1              # [win]
+        - if not exist %LIBRARY_BIN%\{{ target_name }}\cudart64_{{ version.split(".")[0] }}.dll exit 1              # [win]
 
     about:
       home: https://developer.nvidia.com/cuda-toolkit
@@ -159,9 +159,9 @@ outputs:
       - targets/{{ target_name }}/include                               # [linux]
       - targets/{{ target_name }}/lib/*.so                              # [linux]
       - Library\include                                                 # [win]
-      - Library\lib\cuda.lib                                            # [win]
-      - Library\lib\cudadevrt.lib                                       # [win]
-      - Library\lib\cudart.lib                                          # [win]
+      - Library\lib\{{ target_name }}\cuda.lib                                            # [win]
+      - Library\lib\{{ target_name }}\cudadevrt.lib                                       # [win]
+      - Library\lib\{{ target_name }}\cudart.lib                                          # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -187,9 +187,9 @@ outputs:
         - if not exist %LIBRARY_INC%\cuda.h exit 1                                              # [win]
         - if not exist %LIBRARY_INC%\cuda_runtime.h exit 1                                      # [win]
         - if not exist %LIBRARY_INC%\cuda_runtime_api.h exit 1                                  # [win]
-        - if not exist %LIBRARY_LIB%\cuda.lib exit 1                                            # [win]
-        - if not exist %LIBRARY_LIB%\cudadevrt.lib exit 1                                       # [win]
-        - if not exist %LIBRARY_LIB%\cudart.lib exit 1                                          # [win]
+        - if not exist %LIBRARY_LIB%\{{ target_name }}\cuda.lib exit 1                                            # [win]
+        - if not exist %LIBRARY_LIB%\{{ target_name }}\cudadevrt.lib exit 1                                       # [win]
+        - if not exist %LIBRARY_LIB%\{{ target_name }}\cudart.lib exit 1                                          # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -219,7 +219,6 @@ outputs:
       commands:
         - test -L $PREFIX/lib/libcudart_static.a  # [linux]
         - test -L $PREFIX/lib/libcudadevrt.a      # [linux]
-        - test -L $PREFIX/lib/libculibos.a        # [linux]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -235,7 +234,7 @@ outputs:
       noarch: generic
     files:
       - targets/{{ target_name }}/lib/*.a  # [linux]
-      - Library\lib\cudart_static.lib      # [win]
+      - Library\lib\{{ target_name }}\cudart_static.lib      # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -251,8 +250,7 @@ outputs:
       commands:
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart_static.a  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudadevrt.a      # [linux]
-        - test -f $PREFIX/targets/{{ target_name }}/lib/libculibos.a        # [linux]
-        - if not exist %LIBRARY_LIB%\cudart_static.lib exit 1               # [win]
+        - if not exist %LIBRARY_LIB%\{{ target_name }}\cudart_static.lib exit 1               # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
