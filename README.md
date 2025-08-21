@@ -95,14 +95,14 @@ Current release info
 Installing cuda-cudart
 ======================
 
-Installing `cuda-cudart` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `cuda-cudart` from the `conda-forge/label/cuda130_dev` channel can be achieved by adding `conda-forge/label/cuda130_dev` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/cuda130_dev
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `cuda-cudart, cuda-cudart-dev, cuda-cudart-dev_linux-64, cuda-cudart-static, cuda-cudart-static_linux-64, cuda-cudart_linux-64, cuda-driver-dev, cuda-driver-dev_linux-64` can be installed with `conda`:
+Once the `conda-forge/label/cuda130_dev` channel has been enabled, `cuda-cudart, cuda-cudart-dev, cuda-cudart-dev_linux-64, cuda-cudart-static, cuda-cudart-static_linux-64, cuda-cudart_linux-64, cuda-driver-dev, cuda-driver-dev_linux-64` can be installed with `conda`:
 
 ```
 conda install cuda-cudart cuda-cudart-dev cuda-cudart-dev_linux-64 cuda-cudart-static cuda-cudart-static_linux-64 cuda-cudart_linux-64 cuda-driver-dev cuda-driver-dev_linux-64
@@ -117,26 +117,26 @@ mamba install cuda-cudart cuda-cudart-dev cuda-cudart-dev_linux-64 cuda-cudart-s
 It is possible to list all of the versions of `cuda-cudart` available on your platform with `conda`:
 
 ```
-conda search cuda-cudart --channel conda-forge
+conda search cuda-cudart --channel conda-forge/label/cuda130_dev
 ```
 
 or with `mamba`:
 
 ```
-mamba search cuda-cudart --channel conda-forge
+mamba search cuda-cudart --channel conda-forge/label/cuda130_dev
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cuda-cudart --channel conda-forge
+mamba repoquery search cuda-cudart --channel conda-forge/label/cuda130_dev
 
 # List packages depending on `cuda-cudart`:
-mamba repoquery whoneeds cuda-cudart --channel conda-forge
+mamba repoquery whoneeds cuda-cudart --channel conda-forge/label/cuda130_dev
 
 # List dependencies of `cuda-cudart`:
-mamba repoquery depends cuda-cudart --channel conda-forge
+mamba repoquery depends cuda-cudart --channel conda-forge/label/cuda130_dev
 ```
 
 
