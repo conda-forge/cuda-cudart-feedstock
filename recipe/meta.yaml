@@ -26,7 +26,7 @@ source:
   sha256: 82fb29001895810ce02e88b180cbaa90607b852a7f67a63f18f202079eaa2966  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx or ppc64le]
 
 requirements:
@@ -116,8 +116,8 @@ outputs:
 
   - name: cuda-cudart-dev
     build:
-      run_exports:
-        - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
+      run_exports:                                          # [linux]
+        - {{ pin_subpackage("cuda-cudart", max_pin="x") }}  # [linux]
     files:             # [linux]
       - lib/libcu*.so  # [linux]
       - lib/pkgconfig  # [linux]
@@ -153,8 +153,8 @@ outputs:
   - name: cuda-cudart-dev_{{ target_platform }}
     build:
       noarch: generic
-      run_exports:
-        - {{ pin_subpackage("cuda-cudart", max_pin="x") }}
+      run_exports:                                          # [linux]
+        - {{ pin_subpackage("cuda-cudart", max_pin="x") }}  # [linux]
     files:
       - targets/{{ target_name }}/include                               # [linux]
       - targets/{{ target_name }}/lib/*.so                              # [linux]
