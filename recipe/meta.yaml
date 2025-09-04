@@ -1,5 +1,5 @@
 {% set name = "cuda-cudart" %}
-{% set version = "13.0.48" %}
+{% set version = "13.0.88" %}
 {% set cuda_version = "13.0" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
@@ -20,13 +20,13 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/{{ platform }}/cuda_cudart-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 30ffafae23833dafc965cf4e4d034f8553805586959328c64e2c47b3ef3bcd55  # [linux64]
-  sha256: 796da98c6868eb8aa0de5c28f4fb7fb77c2250cd91c9a763a2169faec95fc5dc  # [aarch64 and arm_variant_type=="sbsa"]
+  sha256: bc44226f069402ab327bcf9e754660621aa6bc61fb7fc6afe03b794dfaaab658  # [linux64]
+  sha256: 0b212ac2e49519f8e3bf49c61fc382bcf325603accc7ef45578175315ab1c059  # [aarch64 and arm_variant_type=="sbsa"]
   #sha256: f893e2c72be81b0d0e3bc33827c785a96db15fd5aafdc51cc187f3df6fdbb657  # [aarch64 and arm_variant_type=="tegra"]
-  sha256: 82fb29001895810ce02e88b180cbaa90607b852a7f67a63f18f202079eaa2966  # [win]
+  sha256: 48b1a445cbc2b2b468f872bc698a751d763ef5c06bc03ce559af1bc7e23f9345  # [win]
 
 build:
-  number: 1
+  number: 0
   skip: true  # [osx or ppc64le]
 
 requirements:
@@ -58,7 +58,7 @@ outputs:
       commands:
         - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
-        - if exist %LIBRARY_BIN%\{{ target_name }}\cudart64_{{ version.split(".")[0] }}.dll exit 1                  # [win]
+        - if exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1                  # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
@@ -77,7 +77,7 @@ outputs:
         - "*/api-ms-win-security-systemfunctions-*.dll"  # [win]
     files:
       - lib/libcu*.so.*                            # [linux]
-      - Library\bin\{{ target_name }}\cudart*.dll                    # [win]
+      - Library\bin\cudart*.dll                    # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -102,7 +102,7 @@ outputs:
         - test -L $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version.split(".")[0] }}  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcudart.so.{{ version }}                # [linux]
         - bash test-rpath.sh                                                                      # [linux]
-        - if not exist %LIBRARY_BIN%\{{ target_name }}\cudart64_{{ version.split(".")[0] }}.dll exit 1              # [win]
+        - if not exist %LIBRARY_BIN%\cudart64_{{ version.split(".")[0] }}.dll exit 1              # [win]
 
     about:
       home: https://developer.nvidia.com/cuda-toolkit
