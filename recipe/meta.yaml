@@ -1,18 +1,25 @@
 {% set name = "cuda-cudart" %}
-{% set version = "13.3.29" %}
-{% set cuda_version = "13.3" %}
+{% set version = "13.4.49" %}
+{% set cuda_version = "13.4" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
 {% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
 {% set platform = "linux-aarch64" %}  # [aarch64 and arm_variant_type=="tegra"]
-{% set platform = "windows-x86_64" %}  # [win]
+{% set platform = "windows-x86_64" %}  # [win64]
+{% set platform = "windows-arm64" %}  # [win and arm64]
 {% set target_name = "x86_64-linux" %}  # [linux64]
 {% set target_name = "ppc64le-linux" %}  # [ppc64le]
 {% set target_name = "sbsa-linux" %}  # [aarch64 and arm_variant_type=="sbsa"]
 {% set target_name = "aarch64-linux" %}  # [aarch64 and arm_variant_type=="tegra"]
-{% set target_name = "x64" %}  # [win]
+{% set target_name = "x64" %}  # [win64]
+{% set target_name = "arm64" %}  # [win and arm64]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
+{% set sha256 = "ec3df9f91560db23a064c6b395d4fde17b2893f5bf954c6bd193dd03a44de522" %}  # [linux64]
+{% set sha256 = "da5ded04df3c0714c26e4c2167cd5ce56f85e7216ffde753ded9f363818aa659" %}  # [aarch64 and arm_variant_type=="sbsa"]
+#{% set sha256 = "0cdd73d11885062daf3aa98ad4d7b8bd84f89b398be11f7054edea9ed31f597d" %}  # [aarch64 and arm_variant_type=="tegra"]
+{% set sha256 = "e6663f3d3e8949eedc2d5ab92c7c5b9fa3f2a222086d91c42bfc5a38bf2b0225" %}  # [win64]
+{% set sha256 = "d48085b557db615f1095d4a6f96d4d1fcc8ba0c4fd16ad40f30f953b6ae422cf" %}  # [win and arm64]
 
 package:
   name: cuda-cudart-split
@@ -20,10 +27,7 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/{{ platform }}/cuda_cudart-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 1e59c4888267d27ba1a9bd0f3669a6439db1334a96e754cd9013c7c73e18dc9d  # [linux64]
-  sha256: 0cdd73d11885062daf3aa98ad4d7b8bd84f89b398be11f7054edea9ed31f597d  # [aarch64 and arm_variant_type=="sbsa"]
-  #sha256: 0cdd73d11885062daf3aa98ad4d7b8bd84f89b398be11f7054edea9ed31f597d  # [aarch64 and arm_variant_type=="tegra"]
-  sha256: 1feb7dd266813ffe8dbc24e115183a5ac35a4795c8d34aca0df85ab616b64d9c  # [win]
+  sha256: {{ sha256 }}
 
 build:
   number: 0

@@ -1,8 +1,14 @@
-if not exist %PREFIX% mkdir %PREFIX%
-if not exist %LIBRARY_LIB%\x64 mkdir %LIBRARY_LIB%\x64
+if "%TARGET_PLATFORM%" == "win-arm64" (
+    set CUDA_ARCH=arm64
+) else (
+    set CUDA_ARCH=x64
+)
 
-move lib\x64\* %LIBRARY_LIB%\x64
-move bin\x64\* %LIBRARY_BIN%
+if not exist %PREFIX% mkdir %PREFIX%
+if not exist %LIBRARY_LIB%\%CUDA_ARCH% mkdir %LIBRARY_LIB%\%CUDA_ARCH%
+
+move lib\%CUDA_ARCH%\* %LIBRARY_LIB%\%CUDA_ARCH%
+move bin\%CUDA_ARCH%\* %LIBRARY_BIN%
 move include\cooperative_groups %LIBRARY_INC%
 move include\* %LIBRARY_INC%
 if %errorlevel% neq 0 exit /b 1
