@@ -1,5 +1,5 @@
 {% set name = "cuda-cudart" %}
-{% set version = "13.4.49" %}
+{% set version = "13.4.92" %}
 {% set cuda_version = "13.4" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
@@ -15,11 +15,11 @@
 {% set target_name = "arm64" %}  # [win and arm64]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
-{% set sha256 = "ec3df9f91560db23a064c6b395d4fde17b2893f5bf954c6bd193dd03a44de522" %}  # [linux64]
-{% set sha256 = "da5ded04df3c0714c26e4c2167cd5ce56f85e7216ffde753ded9f363818aa659" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set sha256 = "0ac5dbc538d04e9983bc493b410cce4b459e1ee9f5f6654b6464ef7b3e14a8b5" %}  # [linux64]
+{% set sha256 = "47e65e60d0f7cf832bff7992bd7a87ba4888195c31210392b5f23c607fe6c2a8" %}  # [aarch64 and arm_variant_type=="sbsa"]
 #{% set sha256 = "0cdd73d11885062daf3aa98ad4d7b8bd84f89b398be11f7054edea9ed31f597d" %}  # [aarch64 and arm_variant_type=="tegra"]
-{% set sha256 = "e6663f3d3e8949eedc2d5ab92c7c5b9fa3f2a222086d91c42bfc5a38bf2b0225" %}  # [win64]
-{% set sha256 = "d48085b557db615f1095d4a6f96d4d1fcc8ba0c4fd16ad40f30f953b6ae422cf" %}  # [win and arm64]
+{% set sha256 = "621a70c4778287b1abf8c27c61b841d797fda2aeff01033374dd19624bcfa249" %}  # [win64]
+{% set sha256 = "d3cec2717ba3c2c714c5869a5374365d087c698d87c0ddd3bd41715447112891" %}  # [win and arm64]
 
 package:
   name: cuda-cudart-split
