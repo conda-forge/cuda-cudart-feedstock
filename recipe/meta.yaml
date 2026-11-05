@@ -1,6 +1,6 @@
 {% set name = "cuda-cudart" %}
-{% set version = "13.4.92" %}
-{% set cuda_version = "13.4" %}
+{% set version = "13.5.37" %}
+{% set cuda_version = "13.5" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
 {% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
@@ -15,11 +15,11 @@
 {% set target_name = "arm64" %}  # [win and arm64]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
-{% set sha256 = "0ac5dbc538d04e9983bc493b410cce4b459e1ee9f5f6654b6464ef7b3e14a8b5" %}  # [linux64]
-{% set sha256 = "47e65e60d0f7cf832bff7992bd7a87ba4888195c31210392b5f23c607fe6c2a8" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set sha256 = "26ca1b8963ce1b73e0e77113c711730545cacaaee7233c0526477d96d4c621fe" %}  # [linux64]
+{% set sha256 = "9da80d6aa87f5bc46971c1343024f30a850aca9aac03da95219880aaf854154f" %}  # [aarch64 and arm_variant_type=="sbsa"]
 #{% set sha256 = "0cdd73d11885062daf3aa98ad4d7b8bd84f89b398be11f7054edea9ed31f597d" %}  # [aarch64 and arm_variant_type=="tegra"]
-{% set sha256 = "621a70c4778287b1abf8c27c61b841d797fda2aeff01033374dd19624bcfa249" %}  # [win64]
-{% set sha256 = "d3cec2717ba3c2c714c5869a5374365d087c698d87c0ddd3bd41715447112891" %}  # [win and arm64]
+{% set sha256 = "ef9747b13bd2c2c199a5f2756b56c94d0b5acf04556ce95ef4649122ee9b752a" %}  # [win64]
+{% set sha256 = "2327bb5c60b24dfdfec4ab12504afc32d93eb22b35c116d1ba8a6f63648e2376" %}  # [win and arm64]
 
 package:
   name: cuda-cudart-split
@@ -30,7 +30,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
   skip: true  # [osx or ppc64le]
 
 requirements:
